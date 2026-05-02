@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小説試作版ビューア</title>
+  <meta name="description" content="GitHub Pagesで公開できる日本語小説向けの静的ビューア試作版です。縦書き・横書き切替、ルビ、縦中横、ダークモードに対応します。">
+  <meta name="color-scheme" content="light dark">
+  <script type="text/javascript" nonce="9facaa5b6d1c4062a4029375f3d" src="//local.adguard.org?ts=1777705741505&amp;type=content-script&amp;dmn=ppl-ai-code-interpreter-files.s3.amazonaws.com&amp;url=https%3A%2F%2Fppl-ai-code-interpreter-files.s3.amazonaws.com%2Fweb%2Fdirect-files%2Fefb62eef05cfbfa0212c346767c50366%2F1ebea993-1cb1-4e84-ba39-61d71df3b8d6%2F0eb54730.html%3Fresponse-content-disposition%3Dattachment%253B%2520filename%253D%2522index.html%2522%253B%2520filename%252A%253DUTF-8%2527%2527index.html%26AWSAccessKeyId%3DASIA2F3EMEYEQDUGMZ7B%26Signature%3D4zVizVK1FpZOe8FnEVbK6Gw%252BkJg%253D%26x-amz-security-token%3DIQoJb3JpZ2luX2VjEHAaCXVzLWVhc3QtMSJIMEYCIQCghoCwPvhLK2d%252B%252FvnP9jVQUkKA8aSi7MmyJR4l9e6sIwIhAPfjw8AjLyePFCyJldFT%252FBkFAyhETLWW8u%252B57Zt2HHvUKvMECDkQARoMNjk5NzUzMzA5NzA1IgwAvKAscJIPJLWlQTYq0AT8lZdzPGcqocHNOppyPYASIQydzFTx%252F56JTZVHxclF5v9JFPea5Y3%252BzgroEMrk7epUtLizMtLiD%252Fm9JXEDIEplY0Tm%252BoJZHrX5nCSpTqn3ugHnHymWg%252FoxOEjm2TM7IXfBgiwqzI66yI0RhkRNFq%252BGWTgagAUssofkfrtPMygdre483hrKYHlBUj4cCGZLHQhmB0MmJn5fuqeaO%252BprNeO%252FpbpYoh7yOCrOUaNsQ2PbCEOnUzYEpT47C6e2ypEewV1RiPeG7GefcSSqV78gwWM%252FE3htOdqm32lYVDbL8VCbjSCwjRypaOX%252BXUvlPevw3GyhkUOc%252FHJQMH%252BTeE5L5uIh%252Bn3r%252BY67DOTKFdYL0G%252BFzuKb2bSn%252BoyJxfu4bqozG%252BXtzhgNOSEBtHyRXxHjr6nTNjlzDq4vezD8bhF1KR12jksOVimtjZAtPT4q6M9PFhglfH9ztYfQvTrkD7ETckECvsbpHTC7kF0VXU1Oqtds%252F%252B0XUX3ZRxBt7cvQ%252B1Oras9MxRjS9ZDeAAd2O5OVbPi3d8VkaeT5Ux4VDdM4Hdbha5cTF4OoyZs4V%252Bf0zp5M6esYfr5DPYaD%252Fx7N%252BWvenFQSwQD570SOy%252FPWuSfqNnmHbqO0awqhq7xL%252FNFPf1eFfYTa1wuorB1yopnqKgeA%252Fl6SgGQdn7myKZ6B94CjUasOExWTX30FzJ6hRrE%252Bp6fHYQDlAttILvyMbENdjFIiMmgXxtCOPJ4gPu0LLabjPV6n%252BGQ%252F%252FAZAMo4cdXgqXe4NhOhWQCj6WPcvsXUCIoMLY%252Fl8MK%252Ff1s8GOpcB4hwIyfRgpjB4XpnaKocojBP47Cdpx3JfDujnTNhj8zkE1nFPLc%252FVdV2YFsveSyphrYvVmWY84hEUpiy0dHvcBnCtHV7MCNco0LWUDlteS3%252FzZp6GkIWbZl5bySgBheX9C6DH9PYUhCyQ46scfumT9DxW6UmKqEuGNd8rI5CbQFrIL1XViwuo%252BM6CAutRkt5uYdJoDlBvJA%253D%253D%26Expires%3D1777710322&amp;app=firefox.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="9facaa5b6d1c4062a4029375f3d" src="//local.adguard.org?ts=1777705741505&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --surface: #f6f6f6;
+      --surface-2: #efefef;
+      --border: #d8d8d8;
+      --text: #111111;
+      --muted: #5a5a5a;
+      --accent: #0b57d0;
+      --accent-soft: #e9f1ff;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --font-body: 'Noto Serif JP', serif;
+      --font-ui: 'Zen Kaku Gothic New', sans-serif;
+      --content-inline: min(92vw, 980px);
+      --content-block: min(80dvh, 900px);
+      --gap: 1rem;
+      --body-size: 1.08rem;
+      --ruby-size: 0.58em;
+      --line-height: 2.05;
+      --letter-space: 0.03em;
+      --toolbar-h: 64px;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0f1115;
+      --surface: #171a20;
+      --surface-2: #20242c;
+      --border: #333946;
+      --text: #f5f5f5;
+      --muted: #b4bac6;
+      --accent: #8ab4ff;
+      --accent-soft: #16253c;
+      --shadow: 0 10px 32px rgba(0,0,0,.35);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) {
+        --bg: #0f1115;
+        --surface: #171a20;
+        --surface-2: #20242c;
+        --border: #333946;
+        --text: #f5f5f5;
+        --muted: #b4bac6;
+        --accent: #8ab4ff;
+        --accent-soft: #16253c;
+        --shadow: 0 10px 32px rgba(0,0,0,.35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      min-height: 100dvh;
+    }
+
+    a { color: var(--accent); }
+    button, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -40px;
+      background: var(--accent);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 10px;
+      z-index: 100;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+    }
+
+    .toolbar {
+      min-height: var(--toolbar-h);
+      width: min(96vw, 1200px);
+      margin: 0 auto;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 210px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 22px; height: 22px; }
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .btn, .select, .range-wrap {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      min-height: 42px;
+      padding: 0 14px;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn[aria-pressed="true"] {
+      background: var(--accent-soft);
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+      color: var(--accent);
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 10px;
+    }
+
+    .range-wrap input {
+      width: 110px;
+      accent-color: var(--accent);
+    }
+
+    main {
+      width: min(96vw, 1200px);
+      margin: 0 auto;
+      padding: 20px 0 48px;
+    }
+
+    .intro {
+      margin: 14px auto 18px;
+      padding: 18px;
+      width: min(100%, 1040px);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: linear-gradient(180deg, var(--surface), var(--bg));
+      box-shadow: var(--shadow);
+    }
+
+    .intro h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      font-family: var(--font-body);
+      line-height: 1.4;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .reader-shell {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .reader-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .92rem;
+      flex-wrap: wrap;
+    }
+
+    .reader {
+      background: var(--bg);
+      min-height: 70dvh;
+      overflow: auto;
+      scrollbar-gutter: stable;
+      padding: 22px;
+    }
+
+    .novel {
+      margin: 0 auto;
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: var(--line-height);
+      letter-spacing: var(--letter-space);
+      color: var(--text);
+      text-align: justify;
+      text-underline-offset: .15em;
+    }
+
+    .novel p {
+      margin: 0 0 1.2em;
+    }
+
+    .novel h2 {
+      font-size: 1.15em;
+      margin: 0 0 1.6em;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .novel ruby {
+      ruby-align: center;
+      ruby-position: over;
+    }
+
+    .novel rt {
+      font-size: var(--ruby-size);
+      letter-spacing: 0;
+    }
+
+    .tcy {
+      text-combine-upright: all;
+      -webkit-text-combine: horizontal;
+    }
+
+    .mode-horizontal .novel {
+      writing-mode: horizontal-tb;
+      max-width: min(72ch, var(--content-inline));
+      padding: 12px 6px 24px;
+    }
+
+    .mode-vertical .reader {
+      min-height: min(76dvh, 980px);
+    }
+
+    .mode-vertical .novel {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      max-height: var(--content-block);
+      inline-size: auto;
+      block-size: var(--content-block);
+      padding: 10px 18px;
+    }
+
+    .mode-vertical .novel p,
+    .mode-vertical .novel h2 {
+      margin: 0 0 0 1.35em;
+    }
+
+    .mode-vertical .reader {
+      padding: 20px;
+    }
+
+    .legend {
+      padding: 16px 18px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: .95rem;
+    }
+
+    .legend code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2px 6px;
+      color: var(--text);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+      .toolbar { justify-content: center; }
+      .brand { width: 100%; justify-content: center; }
+      .controls { justify-content: center; }
+      .reader { padding: 14px; }
+      .mode-vertical .reader { padding: 14px; }
+      .mode-vertical .novel {
+        block-size: min(68dvh, 760px);
+        padding: 8px 12px;
+      }
+      .intro { border-radius: 20px; }
+      .reader-shell { border-radius: 22px; }
+    }
+
+    @media (max-width: 600px) {
+      .toolbar {
+        padding-inline: 10px;
+        gap: 10px;
+      }
+      .btn, .select, .range-wrap {
+        min-height: 40px;
+        padding-inline: 12px;
+      }
+      .range-wrap { width: 100%; justify-content: center; }
+      .range-wrap input { width: min(42vw, 160px); }
+      .reader-meta { font-size: .86rem; }
+      .mode-horizontal .novel { font-size: calc(var(--body-size) - 0.02rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="mode-horizontal">
+  <a href="#reader" class="skip-link">本文へ移動</a>
+  <header class="app-header">
+    <div class="toolbar">
+      <div class="brand" aria-label="小説試作版ビューア">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 4.5h9.2a3 3 0 0 1 3 3v12"/>
+            <path d="M6 4.5a2.5 2.5 0 0 0-2.5 2.5v10A2.5 2.5 0 0 1 6 14.5h12"/>
+            <path d="M8.5 8h6"/>
+            <path d="M8.5 11h4.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">小説試作版ビューア</div>
+          <div class="brand-sub">白背景／黒文字を標準にした GitHub Pages 向け試作</div>
+        </div>
+      </div>
+
+      <div class="controls" aria-label="表示設定">
+        <button class="btn" id="toggleWritingMode" type="button" aria-pressed="false">縦書きに切替</button>
+        <button class="btn" id="toggleTheme" type="button" aria-pressed="false">ダークモード</button>
+        <button class="btn" id="toggleRuby" type="button" aria-pressed="true">ルビ表示中</button>
+        <label class="range-wrap" for="fontSizeRange">
+          <span>文字サイズ</span>
+          <input id="fontSizeRange" type="range" min="96" max="132" value="108" step="4">
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="intro-title">
+      <h1 id="intro-title">GitHub で公開する日本語小説のための、最初の試作版です。</h1>
+      <p>このページは静的 HTML 1 枚で動くので、そのまま GitHub Pages に置けます。縦書き／横書き、ルビ、縦中横、ダークモード、文字サイズ変更を試せるようにしてあります。</p>
+    </section>
+
+    <section class="reader-shell" aria-label="本文ビューア">
+      <div class="reader-meta">
+        <div>作品名：薄明の書庫（サンプル）</div>
+        <div>章：第一章　硝子戸の向こう</div>
+        <div>表示：<span id="currentModeLabel">横書き</span>・<span id="currentThemeLabel">ライト</span></div>
+      </div>
+
+      <div class="reader" id="reader" tabindex="0">
+        <article class="novel" id="novel" aria-label="小説本文"></article>
+      </div>
+
+      <div class="legend">
+        原稿入力では <code>｜漢字《かんじ》</code> 形式のルビ記法を使えます。縦中横は本文中で <code>[tcy]12[/tcy]</code> のように書くと反映される想定です。
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rawText = String.raw`# 第一章　硝子戸の向こう
+
+　その書庫は、駅から歩いて<span class="tcy">12</span>分ほどの、古い商店街の外れにあった。
+　雨の日になると、道の両側の看板は色を失い、代わりに硝子戸の内側だけが、ひっそりと｜灯《あか》るく見えた。
+
+　僕がその場所を初めて見つけたのは、高校を卒業してまもない春のことだった。
+　進路も、仕事も、はっきりした名を持たないまま、ただ朝と夜のあいだを歩いているような時期で、何かを選ぶたびに、その先で別の何かを失う気がしていた。
+
+　店先には、木の札に小さく「薄明文庫」と書かれていた。
+　古びた文字なのに妙に整っていて、まるで昨日の夜、誰かが静かに書き直したばかりのようにも見える。
+
+　硝子戸を開けると、鈴の音がひとつ鳴った。
+　その音は店の奥へまっすぐ飛んでいき、それから少し遅れて、紙の匂いと、湯気に似たあたたかい空気がこちらへ戻ってきた。
+
+　「いらっしゃい」
+
+　声のした方を見ると、帳場のような机の向こうに、年齢のわからない女性が座っていた。
+　髪は長く、墨を含んだように黒い。けれど表情は不思議にやわらかく、初対面のはずなのに、ずいぶん前からこちらの名前を知っている人のようでもあった。
+
+　「雨宿りでも、本を探しにでも。どちらでもいいですよ」
+
+　そう言って彼女は、閉じていた本に指を挟み、栞の代わりにした。
+　その仕草だけで、この店では時間が急がないのだとわかった。
+
+　棚には和綴じの本もあれば、背表紙のひび割れた洋書もあり、手作りらしい薄い冊子も混じっていた。
+　分類はあるようでない。
+　それでも、目で追っているうちに、なぜか「次はあの棚を見ればいい」と自然に思えてくる。
+
+　僕は窓際の棚に近づき、一冊の本を抜き出した。
+　表紙には題名も著者名もなく、ただ、群青色の布に銀の線が一本だけ引かれている。
+　線はまっすぐではなく、心電図のようにわずかに揺れていた。
+
+　「それは、読む人によって始まり方が変わる本です」
+
+　顔を上げると、さっきの女性がいつの間にかすぐそばに立っていた。
+　足音は聞こえなかった。
+
+　「始まり方が、変わる？」
+
+　「ええ。ですから、今日はまだ開かないほうがいいかもしれません」
+
+　忠告なのか、誘いなのか判別のつかない言い方だった。
+　僕は少し迷ってから、その本を棚へ戻した。
+
+　すると彼女は、わずかに目を細めた。
+　その表情が、正解を選んだ生徒を見る教師のものにも、危うい橋を渡らなかった旅人を見る案内人のものにも見えた。
+
+　「代わりに、こちらを」
+
+　差し出されたのは、掌に収まるほど小さな本だった。
+　黄ばんだ紙の表紙に、｜雨読《うどく》とだけ書かれている。
+
+　椅子に腰を下ろし、最初の頁を開く。
+　すると、そこにはたった一行、こう記されていた。
+
+　――｜失《な》くしたものは、なくなった場所ではなく、思い出した場所から帰ってくる。
+
+　その文章を読んだとき、胸の奥で、ごく小さな音がした。
+　錆びた鍵が、長いあいだ使われなかった錠前に差しこまれた時のような、乾いているのに確かな感触のある音だった。
+
+　僕は思わず頁を閉じ、もう一度ひらいた。
+　けれど同じ一行が、やはり同じ場所にあるだけだった。
+
+　「気に入りましたか」
+
+　「……まだ、わかりません」
+
+　「その返事をする人は、たいてい後で何度も来ます」
+
+　彼女は微笑んだ。
+　店の外では、さっきより少し強く雨が降っていた。
+　硝子戸の向こうを通り過ぎる人影は、どれも急ぎ足で、ここだけが別の時間の流れに取り残されているように思えた。
+
+　その日、僕は本を買わなかった。
+　買わなかったのに、帰り道のポケットには、あの一行だけが、折りたたまれた紙片みたいに残っていた。`;
+
+    const novel = document.getElementById('novel');
+    const toggleWritingMode = document.getElementById('toggleWritingMode');
+    const toggleTheme = document.getElementById('toggleTheme');
+    const toggleRuby = document.getElementById('toggleRuby');
+    const fontSizeRange = document.getElementById('fontSizeRange');
+    const currentModeLabel = document.getElementById('currentModeLabel');
+    const currentThemeLabel = document.getElementById('currentThemeLabel');
+
+    let currentMode = 'horizontal';
+    let currentTheme = 'light';
+    let rubyVisible = true;
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function convertInline(text) {
+      let result = escapeHtml(text);
+      result = result.replace(/\[tcy\](.+?)\[\/tcy\]/g, '<span class="tcy">$1</span>');
+      result = result.replace(/｜([^｜《\n]+)《([^》\n]+)》/g, '<ruby>$1<rp>（</rp><rt>$2</rt><rp>）</rp></ruby>');
+      return result;
+    }
+
+    function renderNovel(raw) {
+      const blocks = raw.trim().split(/\n\s*\n/);
+      novel.innerHTML = blocks.map(block => {
+        const line = block.trim();
+        if (line.startsWith('# ')) {
+          return `<h2>${convertInline(line.slice(2))}</h2>`;
+        }
+        return `<p>${convertInline(line)}</p>`;
+      }).join('');
+    }
+
+    function applyMode() {
+      document.body.classList.toggle('mode-vertical', currentMode === 'vertical');
+      document.body.classList.toggle('mode-horizontal', currentMode !== 'vertical');
+      toggleWritingMode.setAttribute('aria-pressed', String(currentMode === 'vertical'));
+      toggleWritingMode.textContent = currentMode === 'vertical' ? '横書きに切替' : '縦書きに切替';
+      currentModeLabel.textContent = currentMode === 'vertical' ? '縦書き' : '横書き';
+    }
+
+    function applyTheme() {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      toggleTheme.setAttribute('aria-pressed', String(currentTheme === 'dark'));
+      toggleTheme.textContent = currentTheme === 'dark' ? 'ライトモード' : 'ダークモード';
+      currentThemeLabel.textContent = currentTheme === 'dark' ? 'ダーク' : 'ライト';
+    }
+
+    function applyRubyVisibility() {
+      document.documentElement.style.setProperty('--ruby-size', rubyVisible ? '0.58em' : '0');
+      toggleRuby.setAttribute('aria-pressed', String(rubyVisible));
+      toggleRuby.textContent = rubyVisible ? 'ルビ表示中' : 'ルビ非表示';
+    }
+
+    function initTheme() {
+      currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      currentTheme = 'light';
+      applyTheme();
+    }
+
+    renderNovel(rawText);
+    initTheme();
+    applyMode();
+    applyRubyVisibility();
+
+    toggleWritingMode.addEventListener('click', () => {
+      currentMode = currentMode === 'vertical' ? 'horizontal' : 'vertical';
+      applyMode();
+    });
+
+    toggleTheme.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+    });
+
+    toggleRuby.addEventListener('click', () => {
+      rubyVisible = !rubyVisible;
+      applyRubyVisibility();
+    });
+
+    fontSizeRange.addEventListener('input', (event) => {
+      document.documentElement.style.setProperty('--body-size', `${event.target.value / 100}rem`);
+    });
+  </script>
+</body>
+</html>
