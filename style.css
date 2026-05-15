@@ -1,0 +1,298 @@
+/*
+  『九十九の庭』 静的読書ページ
+  GitHub Pagesでは、この index.html / style.css / script.js を同じ階層に置けば動作します。
+*/
+
+:root {
+  --paper: #f6f0e4;
+  --paper-deep: #eee3d2;
+  --ink: #2f2a24;
+  --muted: #837765;
+  --gold: #aa8e33;
+  --line: rgba(63, 52, 39, 0.18);
+  --shadow: rgba(47, 42, 36, 0.16);
+  --button-bg: rgba(255, 252, 245, 0.82);
+  --button-bg-hover: rgba(255, 252, 245, 1);
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.45), transparent 32rem),
+    linear-gradient(180deg, var(--paper), var(--paper-deep));
+  font-family: var(--font-serif);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  background-image:
+    linear-gradient(rgba(47, 42, 36, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(47, 42, 36, 0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mix-blend-mode: multiply;
+}
+
+.site-header {
+  position: relative;
+  z-index: 1;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4.5rem) 1.25rem 1.25rem;
+  text-align: center;
+}
+
+.site-kicker {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+}
+
+.site-title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  letter-spacing: 0.2em;
+}
+
+.reading-controls {
+  margin-top: 1.4rem;
+}
+
+.mode-button {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.72rem 1.15rem;
+  color: var(--ink);
+  background: var(--button-bg);
+  box-shadow: 0 0.35rem 1rem rgba(47, 42, 36, 0.07);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.mode-button:hover {
+  background: var(--button-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 0.55rem 1.25rem rgba(47, 42, 36, 0.1);
+}
+
+.mode-button:focus-visible {
+  outline: 3px solid rgba(170, 142, 51, 0.38);
+  outline-offset: 4px;
+}
+
+.page-shell {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 78rem);
+  margin: 0 auto;
+  padding: 0 1.25rem clamp(3rem, 8vw, 6rem);
+}
+
+.reader {
+  margin: clamp(1.5rem, 4vw, 3rem) auto;
+  color: var(--ink);
+  font-size: clamp(1.02rem, 1.8vw, 1.16rem);
+}
+
+.reader--horizontal {
+  max-width: 43rem;
+  line-height: 2.12;
+  letter-spacing: 0.035em;
+}
+
+.reader--vertical {
+  width: min(100%, 70rem);
+  height: min(74vh, 42rem);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1.2rem 0.25rem 1.6rem;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  line-height: 2.15;
+  letter-spacing: 0.08em;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(63, 52, 39, 0.36) transparent;
+}
+
+.reader--vertical::-webkit-scrollbar {
+  height: 0.65rem;
+}
+
+.reader--vertical::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.reader--vertical::-webkit-scrollbar-thumb {
+  background: rgba(63, 52, 39, 0.28);
+  border-radius: 999px;
+}
+
+.novel-title {
+  margin: 0 0 2.4em;
+  font-size: 1.38em;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+.reader--vertical .novel-title {
+  margin: 0 0 0 2.2em;
+  text-align: start;
+}
+
+.novel-paragraph {
+  margin: 0 0 1.45em;
+  white-space: normal;
+}
+
+.reader--vertical .novel-paragraph {
+  margin: 0 0 0 1.45em;
+}
+
+.reader--vertical .novel-paragraph:last-child,
+.reader--horizontal .novel-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.novel-end {
+  margin-top: 3em;
+  text-align: center;
+  color: var(--muted);
+  letter-spacing: 0.22em;
+}
+
+.reader--vertical .novel-end {
+  margin-top: 0;
+  margin-right: 2.6em;
+  text-align: start;
+}
+
+ruby {
+  ruby-position: over;
+}
+
+rt {
+  font-size: 0.5em;
+  color: var(--muted);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.art-frame {
+  width: min(100%, 54rem);
+  margin: clamp(1.4rem, 4vw, 3rem) auto;
+  padding: 0;
+}
+
+.art-frame__inner {
+  position: relative;
+  display: grid;
+  min-height: clamp(11rem, 28vw, 18rem);
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.36), rgba(238,227,210,0.24)),
+    radial-gradient(circle at 30% 28%, rgba(170, 142, 51, 0.1), transparent 12rem);
+  box-shadow: 0 1.6rem 4rem rgba(47, 42, 36, 0.08);
+  overflow: hidden;
+}
+
+.art-frame__inner::before,
+.art-frame__inner::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+}
+
+.art-frame__inner::before {
+  width: 16rem;
+  height: 16rem;
+  right: -7rem;
+  top: -8rem;
+  border: 1px solid rgba(170, 142, 51, 0.18);
+}
+
+.art-frame__inner::after {
+  width: 10rem;
+  height: 10rem;
+  left: -4rem;
+  bottom: -5rem;
+  border: 1px solid rgba(47, 42, 36, 0.12);
+}
+
+.art-frame__label {
+  padding: 0 1.2rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.25rem 2rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .site-title {
+    letter-spacing: 0.14em;
+  }
+
+  .reader--vertical {
+    height: 72vh;
+    font-size: 1rem;
+    line-height: 2;
+  }
+
+  .reader--horizontal {
+    line-height: 2.05;
+  }
+
+  .art-frame__inner {
+    border-radius: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-button {
+    transition: none;
+  }
+
+  .mode-button:hover {
+    transform: none;
+  }
+}
