@@ -1,4 +1,4 @@
-# 九十九の庭
+# Tsukumo no niwa
 
 GitHub Pages 用の静的ページ一式です。
 
